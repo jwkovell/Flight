@@ -18,12 +18,11 @@ function Controls(options = {}) {
   this.keyDown = false;
   this.keyLeft = false;
 
-  this.touch = false;
   this.mouse = false;
 
   this.dpadEnabled = true;
   this.dpadActive = false;
-  this.dpadType = options['dpadType'] || 'slider';
+  this.dpadType = options['dpadType'] || 'vertical';
   this.dpadLocation = 'left';
   this.dpadIgnoreRadius = 20;
 
@@ -48,34 +47,35 @@ Controls.prototype = {
   // Set key handlers.
   setKeyHandlers: function() {
 
+    // Reference level controls.
+    var controls = game.level.controls;  
+
     //On key press...
     document.addEventListener('keydown', function(event){
 
-      var self = game.level.controls;
-
       // If key code is 70 (f key)...
       if (event.keyCode == 70) {
-        self.action = true;
+        controls.action = true;
       }
 
       // If key code is 38 (up key)...
       else if (event.keyCode == 38) {
-        self.keyUp = true;
+        controls.keyUp = true;
       }
 
       // If key code is 39 (right key)...
       else if (event.keyCode == 39) {
-        self.keyRight = true;
+        controls.keyRight = true;
       }
 
       // If key code is 40 (down key)...
       else if (event.keyCode == 40) {
-        self.keyDown = true;
+        controls.keyDown = true;
       }
 
       // If key code is 37 (left key)...
       else if (event.keyCode == 37) {
-        self.keyLeft = true;
+        controls.keyLeft = true;
       }
 
     });
@@ -83,31 +83,29 @@ Controls.prototype = {
     //On key release...
     document.addEventListener('keyup', function(event){
 
-      var self = game.level.controls;
-
       // If key code is 70 (f key)...
       if (event.keyCode == 70) {
-        self.action = false;
+        controls.action = false;
       }
 
       // If key code is 39 (right key)...
       else if (event.keyCode == 39) {
-        self.keyRight = false;
+        controls.keyRight = false;
       }
 
       // If key code is 37 (left key)...
       else if (event.keyCode == 37) {
-        self.keyLeft = false;
+        controls.keyLeft = false;
       }
 
       // If key code is 38 (up key)...
       else if (event.keyCode == 38) {
-        self.keyUp = false;
+        controls.keyUp = false;
       }
 
       // If key code is 40 (down key)...
       else if (event.keyCode == 40) {
-        self.keyDown = false;
+        controls.keyDown = false;
       }
 
     });
@@ -117,16 +115,17 @@ Controls.prototype = {
   // Set mouse handlers.
   setMouseHandlers: function() {
 
-    var self = game.level.controls;
+    // Reference level controls.
+    var controls = game.level.controls;
 
     // On mouse click start...
     document.addEventListener('mousedown', function(event){
 
       // Indicate the start of a mouse action.
-      self.mouse = true;
+      controls.mouse = true;
 
       // Process event start.
-      self.processEventStart(event['clientX'], event['clientY']);
+      controls.pointerStart(event['clientX'], event['clientY']);
 
     });
 
@@ -134,10 +133,10 @@ Controls.prototype = {
     document.addEventListener('mouseup', function(event){
 
       // Indicate the end of a mouse action.
-      self.mouse = false;
+      controls.mouse = false;
 
       // Process event end.
-      self.processEventEnd(event['clientX'], event['clientY']);
+      controls.pointerEnd(event['clientX'], event['clientY']);
 
     });
 
@@ -145,10 +144,10 @@ Controls.prototype = {
     document.addEventListener('mousemove', function(event){
 
       // If mouse action is in progress...
-      if (self.mouse) {
+      if (controls.mouse) {
 
         // Process event move.
-        self.processEventMove(event['clientX'], event['clientY']);
+        controls.pointerMove(event['clientX'], event['clientY']);
 
       }
 
@@ -159,16 +158,16 @@ Controls.prototype = {
   // Set touch handlers.
   setTouchHandlers: function() {
 
+    // Reference level controls.
+    var controls = game.level.controls;
+
     //On touch start...
     document.body.addEventListener('touchstart', function(event){
 
+      // Prevent scrolling.
       event.preventDefault();
 
-      var self = game.level.controls;
       var touchCount = event['touches'].length;
-
-      // Indicate the start of a touch action.
-      self.touch = true;
 
       // Loop through touch points.
       for (var index = 0; index < event['touches'].length; index++) {
@@ -177,22 +176,19 @@ Controls.prototype = {
         var y = event['touches'][index]['clientY'];
 
         // Process event start.
-        self.processEventStart(x, y);
+        controls.pointerStart(x, y);
 
       }
 
     }, {passive: false});
 
-    // If dpad touch end...
+    // If touch end...
     document.body.addEventListener('touchend', function(event){
 
+      // Prevent scrolling.
       event.preventDefault();
 
-      var self = game.level.controls;
       var touchCount = event['changedTouches'].length;
-
-      // Indicate the end of a touch action.
-      self.touch = false;
 
       // Loop through touch points.
       for (var index = 0; index < touchCount; index++) {
@@ -201,122 +197,33 @@ Controls.prototype = {
         var y = event['changedTouches'][index]['clientY'];
 
         // Process event end.
-        self.processEventEnd(x, y);
+        controls.pointerEnd(x, y);
 
       }
 
     }, {passive: false});
 
-    /*
-    //On touch move...
-    document.addEventListener('touchmove', function(event){
+    // If touch move...
+    document.body.addEventListener('touchmove', function(event){
 
+      // Prevent scrolling.
       event.preventDefault();
 
-      var self = game.level.controls;
+      // Get touch count.
       var touchCount = event['touches'].length;
 
       // Loop through touch points.
       for (var index = 0; index < touchCount; index++) {
 
-        // If touch falls within the dpad area...
-        if (
-          event['touches'][index]['clientX'] > self.dpadStartX &&
-          event['touches'][index]['clientX'] < self.dpadEndX
-        ) {
+        var x = event['touches'][index]['clientX'];
+        var y = event['touches'][index]['clientY'];
 
-          // Get offsets between the start and current location of the touch event.
-          self.touchOffsetX = event['touches'][index]['clientX'] - self.touchStartX;
-          self.touchOffsetY = event['touches'][index]['clientY'] - self.touchStartY;
-
-          // Get direction direction.
-          self.direction = Math.atan2(self.touchOffsetY, self.touchOffsetX);
-
-          // If control mode is basic...
-          if (self.mode == 'basic') {
-
-            // If touch offset is significant...
-            if (Math.abs(self.touchOffsetY) > self.touchIgnoreRadius) {
-
-              if (self.direction < 0) {
-                self.direction = -.5 * Math.PI;
-              }
-              else {
-                self.direction = .5 * Math.PI;
-              }
-
-            }
-            else {
-
-              // Set direction to null.
-              self.direction = null;
-
-            }
-
-          }
-
-          // If control mode is full...
-          else if (self.mode == 'full') {
-
-            // If touch offset is significant...
-            if (
-              Math.abs(self.touchOffsetX) > self.touchIgnoreRadius ||
-              Math.abs(self.touchOffsetY) > self.touchIgnoreRadius
-            ) {
-
-              if (self.direction < 0) {
-
-                if (self.direction > -.125 * Math.PI) {
-                  self.direction = 2 * Math.PI;
-                }
-                else if (self.direction > -.375 * Math.PI) {
-                  self.direction = -.25 * Math.PI;
-                }
-                else if (self.direction > -.625 * Math.PI) {
-                  self.direction = -.5 * Math.PI;
-                }
-                else if (self.direction > -.875 * Math.PI) {
-                  self.direction = -.75 * Math.PI;
-                }
-                else {
-                  self.direction = Math.PI;
-                }
-
-              } else {
-
-                if (self.direction < .125 * Math.PI) {
-                  self.direction = 2 * Math.PI;
-                }
-                else if (self.direction < .375 * Math.PI) {
-                  self.direction = .25 * Math.PI;
-                }
-                else if (self.direction < .625 * Math.PI) {
-                  self.direction = .5 * Math.PI;
-                }
-                else if (self.direction < .875 * Math.PI) {
-                  self.direction = .75 * Math.PI;
-                }
-                else {
-                  self.direction = Math.PI;
-                }
-
-              }
-
-            } else {
-
-              // Set direction to null.
-              self.direction = null;
-
-            }
-
-          }
-
-        }
+        // Process event move.
+        controls.pointerMove(x, y);
 
       }
 
     }, {passive: false});
-    */
 
   },
 
@@ -335,7 +242,7 @@ Controls.prototype = {
 
     }
 
-    // If direction is not already handled by touch or mouse events...
+    // If dpad is not active...
     if (this.dpadActive === false) {
 
       // Set direction based on key states.
@@ -371,52 +278,33 @@ Controls.prototype = {
 
   },
 
-  processEventStart: function(x, y) {
+  pointerStart: function(x, y) {
 
-    // If dpad is enabled...
-    if (this.dpadEnabled) {
+    // If dpad is enabled and touch point is inside dpad location...
+    if (this.dpadEnabled && (this.dpadLocation == 'left' && x < game.screenWidth / 2 || this.dpadLocation == 'right' && x > game.screenWidth / 2)) {
 
-      // If origin is inside dpad location...
-      if (
-        (this.dpadLocation == 'left' && x < game.screenWidth / 2) ||
-        (this.dpadLocation == 'right' && x > game.screenWidth / 2)
-      ) {
+      // If dpad is already active...
+      if (this.dpadActive) {
 
-        // If dpad is already active...
-        if (this.dpadActive) {
-
-          // Update action.
-          this.action = true;
-          this.actionX = x;
-          this.actionY = y;
-
-        } else {
-
-          // Set dpad to active.
-          this.dpadActive = true;
-
-          // Update origin.
-          this.originX = x;
-          this.originY = y;
-
-          // Reset offset.
-          this.offsetX = 0;
-          this.offsetY = 0;
-
-        }
-
-      } else {
-
-        // Update action.
+        // Update action values.
         this.action = true;
         this.actionX = x;
         this.actionY = y;
+
+      } else {
+
+        // Update dpad values.
+        this.dpadActive = true;
+        this.originX = x;
+        this.originY = y;
+        this.offsetX = 0;
+        this.offsetY = 0;
 
       }
 
     } else {
 
-      // Update action.
+      // Update action values.
       this.action = true;
       this.actionX = x;
       this.actionY = y;
@@ -425,36 +313,21 @@ Controls.prototype = {
 
   },
 
-  processEventEnd: function(x, y) {
+  pointerEnd: function(x, y) {
 
-    // If dpad is enabled...
-    if (this.dpadEnabled) {
+    // If dpad is enabled and touch point is inside dpad location...
+    if (this.dpadEnabled && (this.dpadLocation == 'left' && x < game.screenWidth / 2 || this.dpadLocation == 'right' && x > game.screenWidth / 2)) {
 
-      // If touch point is inside dpad location...
-      if (
-        (this.dpadLocation == 'left' && x < game.screenWidth / 2) ||
-        (this.dpadLocation == 'right' && x > game.screenWidth / 2)
-      ) {
-
-        // Reset dpad values.
-        this.dpadActive = false;
-        this.originX = 0;
-        this.originY = 0;
-        this.offsetX = 0;
-        this.offsetY = 0;
-
-      } else {
-
-        // Update action.
-        this.action = false;
-        this.actionX = 0;
-        this.actionY = 0;
-
-      }
+      // Reset dpad values.
+      this.dpadActive = false;
+      this.originX = 0;
+      this.originY = 0;
+      this.offsetX = 0;
+      this.offsetY = 0;
 
     } else {
 
-      // Update action.
+      // Update action values.
       this.action = false;
       this.actionX = 0;
       this.actionY = 0;
@@ -463,24 +336,20 @@ Controls.prototype = {
 
   },
 
-  processEventMove: function(x, y) {
+  pointerMove: function(x, y) {
 
     // If dpad is enabled...
     if (this.dpadEnabled) {
 
-      // Update offset.
-      this.offsetX = x - this.originX;
-      this.offsetY = y - this.originY;
-
       // Get canvas/screen pixel ratio.
       var screenRatio = game.width / game.screenWidth;
 
-      // Define offset at canvas scale.
-      this.offsetX = this.offsetX * screenRatio;
-      this.offsetY = this.offsetY * screenRatio;
+      // Update offset at canvas scale.
+      this.offsetX = x - this.originX * screenRatio;
+      this.offsetY = y - this.originY * screenRatio;
 
-      // If dpad type is slider...
-      if (this.dpadType == 'slider') {
+      // If dpad type is vertical...
+      if (this.dpadType == 'vertical') {
 
         // If y offset is greater than dpad ignore radius...
         if (Math.abs(this.offsetY) > this.dpadIgnoreRadius) {
@@ -519,7 +388,7 @@ Controls.prototype = {
           // Get the precise direction.
           var preciseDirection = Math.atan2(this.offsetY, this.offsetX);
 
-          // Convert precise direction into an approximate direction.
+          // Convert precise direction into a 45 degree approximation.
           if (preciseDirection < 0) {
 
             if (preciseDirection > -.125 * Math.PI) {
@@ -576,13 +445,14 @@ Controls.prototype = {
     // if dpad is active...
     if (this.dpadActive) {
 
+      // Set direction indicator to span 45 degrees.
+      var directionIndicatorWidth = .25 * Math.PI;
 
-      var directionArcWidth = .125 * Math.PI;
+      // If dpad type is vertical...
+      if (this.dpadType == 'vertical') {
 
-      // If dpad type is slider...
-      if (this.dpadType == 'slider') {
-
-        directionArcWidth = .5 * Math.PI;
+        // Set direction indicator to span 180 degrees.
+        directionIndicatorWidth = Math.PI;
 
       }
 
@@ -595,7 +465,7 @@ Controls.prototype = {
       // Position canvas for controls.
       game.stage.translate(this.originX * screenCanvasRatio, this.originY * screenCanvasRatio);
 
-      // Draw touch ignore radius.
+      // Draw ignore radius.
       game.stage.beginPath();
       game.stage.arc(0, 0, this.dpadIgnoreRadius, 0, 2 * Math.PI);
       game.stage.stroke();
@@ -604,10 +474,10 @@ Controls.prototype = {
       // If direction is not null...
       if (this.direction !== null) {
 
-        // Draw arc indicating touch direction.
+        // Draw direction indicator.
         game.stage.beginPath();
         game.stage.lineWidth = 8;
-        game.stage.arc(0, 0, this.dpadIgnoreRadius + 8, this.direction - directionArcWidth, this.direction + directionArcWidth);
+        game.stage.arc(0, 0, this.dpadIgnoreRadius + 8, this.direction - directionIndicatorWidth / 2, this.direction + directionIndicatorWidth / 2);
         game.stage.stroke();
         game.stage.closePath();
 

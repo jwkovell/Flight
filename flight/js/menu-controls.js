@@ -140,10 +140,10 @@ MenuControls.prototype = {
     // Reference level controls.
     var controls = game.level.controls;
 
-    // If dpad touch start...
+    // If touch start...
     document.body.addEventListener('touchstart', function(event){
 
-      // Prevent touch scrolling.
+      // Prevent scrolling.
       event.preventDefault();
 
       // Loop through touch points.

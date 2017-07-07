@@ -47,76 +47,65 @@ Dragon.prototype = {
     // Reference controls.
     var controls = game.level.controls;
 
-
-
-
-
-
-
-
-
+    // Decrement invincibility frames.
     this.invincibilityFrames--;
 
+    // If stamina has not maxed out...
     if (this.stamina < this.maxStamina) {
-      if (controls.fire == false) {
+
+      // controls action is not in progress...
+      if (controls.action == false) {
+
+        // Increment stamina.
         this.stamina++;
+
       }
+
     }
 
-    // Get control direction.
-    var direction = game.level.controls.direction;
+    // If control direction is mostly upward...
+    if (controls.direction <= -.25 * Math.PI && controls.direction >= -.75 * Math.PI) {
 
-    // If control direction is upward...
-    if (
-      direction == -.25 * Math.PI ||
-      direction == -.5 * Math.PI ||
-      direction == -.75 * Math.PI
-    ) {
-
-      // If the current rotation is greater than minimum rotation.
+      // If current rotation is greater than minimum rotation.
       if (this.rotation > this.minRotation) {
 
-        // Reduce the current rotation by the rotation increment.
+        // Reduce current rotation by rotation increment.
         this.rotation = this.rotation - this.rotationIncrement;
 
       } else {
 
-        // Set current rotation to the minimum rotation.
+        // Set current rotation to minimum rotation.
         this.rotation = this.minRotation;
 
       }
 
     }
 
-    // If control direction is downward...
-    else if (
-      direction == .25 * Math.PI ||
-      direction == .5 * Math.PI ||
-      direction == .75 * Math.PI
-    ) {
+    // Else, if control direction is mostly downward...
+    else if (controls.direction >= .25 * Math.PI && controls.direction <= .75 * Math.PI) {
 
-      // If the current rotation is less than maximum rotation.
+      // If current rotation is less than maximum rotation.
       if (this.rotation < this.maxRotation) {
 
-        // Reduce the current rotation by the rotation increment.
+        // Reduce current rotation by rotation increment.
         this.rotation = this.rotation + this.rotationIncrement;
 
       } else {
 
-        // Set current rotation to the minimum rotation.
+        // Set current rotation to minimum rotation.
         this.rotation = this.maxRotation;
 
       }
 
     }
 
-    // If control direction is flat...
+    // Else, assume control direction is flat.
     else {
 
-      // If the current rotation is more than 0 by the rotation increment...
+      // If current rotation is more than 0 by rotation increment...
       if (this.rotation > this.rotationIncrement) {
 
-        // Reduce the rotation by the rotation increment.
+        // Reduce rotation by rotation increment.
         this.rotation = this.rotation - this.rotationIncrement;
 
         // Nudge vertical position up.
@@ -124,10 +113,10 @@ Dragon.prototype = {
 
       }
 
-      // Else, if the current rotation is less than 0 by the rotation increment...
+      // Else, if current rotation is less than 0 by rotation increment...
       else if (this.rotation < -this.rotationIncrement) {
 
-        // Increase the rotation by the rotation increment.
+        // Increase rotation by rotation increment.
         this.rotation = this.rotation + this.rotationIncrement;
 
         // Nudge vertical position down.
@@ -135,10 +124,10 @@ Dragon.prototype = {
 
       }
 
-      // Else, if the current rotation is not 0...
+      // Else, if current rotation is not 0...
       else if (this.rotation !== 0) {
 
-        // Set the current rotation to 0.
+        // Set current rotation to 0.
         this.rotation = 0;
 
       }
@@ -148,19 +137,20 @@ Dragon.prototype = {
     // If direction is defined.
     if (direction !== null) {
 
-      if (game.level.controls.mode == 'full') {
+      // Update Y coordinates based on current control direction.
+      this.y = this.y + (this.speed * Math.sin( direction ));
+
+      // If dpad type is full...
+      if (controls.dpadType == 'full') {
 
         // Update X coordinates based on current control direction.
         this.x = this.x + (this.speed * Math.cos( direction ));
 
       }
 
-      // Update Y coordinates based on current control direction.
-      this.y = this.y + (this.speed * Math.sin( direction ));
-
     }
 
-    // Prevent dragon from falling off the screen.
+    // Prevent dragon from falling off screen.
     if (this.x - this.width/2 < 0) {
       this.x = this.width/2;
     }
@@ -182,12 +172,15 @@ Dragon.prototype = {
   // Update collision box.
   updateCollisionBox: function() {
 
+    // Calculate sin and cos for current rotation.
     var rotationSin = Math.abs(Math.sin(this.rotation));
     var rotationCos = Math.abs(Math.cos(this.rotation));
 
+    // Calculate collision box width and height.
     var boxWidth = this.height * rotationSin + this.width * rotationCos;
     var boxHeight = this.height * rotationCos + this.width * rotationSin;
 
+    // Set updated collision box values.
     this.collisionBox.set({
       x: this.x - boxWidth / 2,
       y: this.y - boxHeight / 2,
@@ -205,19 +198,20 @@ Dragon.prototype = {
       // If object has a damage property...
       if ('damage' in object) {
 
-        // Set invincibility frames.
+        // Reset invincibility frames.
         this.invincibilityFrames = this.maxInvincibilityFrames;
   
-        // Reduce the health of dragon by the given damage.
+        // Reduce health of dragon by given damage.
         this.health = this.health - object.damage;
   
       }
   
       // If health is 0 or less...
-      if (this.health < 0) {
-  
+      if (this.health <= 0) {
+
+        // Limit health to no less than 0.
         this.health = 0;
-  
+
       }
 
     }
@@ -238,7 +232,7 @@ Dragon.prototype = {
     game.stage.stroke();
     game.stage.closePath();
 
-    // Reset transformations and styles
+    // Reset transformations and styles.
     game.resetStage();
 
     // Position.
