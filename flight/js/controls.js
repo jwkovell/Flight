@@ -472,6 +472,13 @@ Controls.prototype = {
       this.offsetX = x - this.originX;
       this.offsetY = y - this.originY;
 
+      // Get canvas/screen pixel ratio.
+      var screenRatio = game.width / game.screenWidth;
+
+      // Define offset at canvas scale.
+      this.offsetX = this.offsetX * screenRatio;
+      this.offsetY = this.offsetY * screenRatio;
+
       // If dpad type is slider...
       if (this.dpadType == 'slider') {
 
@@ -498,7 +505,10 @@ Controls.prototype = {
 
         }
 
-      } else {
+      }
+
+      // Else, if dpad type is full...
+      else if (this.dpadType == 'full') {
 
         // If either x or y offsets are greater than dpad ignore radius...
         if (
@@ -566,6 +576,16 @@ Controls.prototype = {
     // if dpad is active...
     if (this.dpadActive) {
 
+
+      var directionArcWidth = .125 * Math.PI;
+
+      // If dpad type is slider...
+      if (this.dpadType == 'slider') {
+
+        directionArcWidth = .5 * Math.PI;
+
+      }
+
       // Reset transformations and styles
       game.resetStage();
 
@@ -587,7 +607,7 @@ Controls.prototype = {
         // Draw arc indicating touch direction.
         game.stage.beginPath();
         game.stage.lineWidth = 8;
-        game.stage.arc(0, 0, this.dpadIgnoreRadius + 8, this.direction - .125 * Math.PI, this.direction + .125 * Math.PI);
+        game.stage.arc(0, 0, this.dpadIgnoreRadius + 8, this.direction - directionArcWidth, this.direction + directionArcWidth);
         game.stage.stroke();
         game.stage.closePath();
 

@@ -18,13 +18,13 @@ MenuControls.prototype = {
   // Prepare controls.
   prepare: function() {
 
-    // Set key related handlers.
+    // Set key handlers.
     this.setKeyHandlers();
 
-    // Set mouse related handlers.
+    // Set mouse handlers.
     this.setMouseHandlers();
 
-    // Set touch related handlers.
+    // Set touch handlers.
     this.setTouchHandlers();
 
   },
@@ -32,42 +32,45 @@ MenuControls.prototype = {
   // Set key handlers.
   setKeyHandlers: function() {
 
-    //On key press...
-    document.addEventListener('keydown', function(event){
+    // Reference level controls.
+    var controls = game.level.controls;
 
-      var self = game.level.controls;
+    // On key press...
+    document.addEventListener('keydown', function(event){
 
       // If key code is 13 (Enter/Return key)...
       if (event.keyCode == 13) {
-        self.action = true;
+        controls.action = true;
+        controls.actionX = null;
+        controls.actionY = null;
       }
 
       // If key code is 38 (up key)...
       else if (event.keyCode == 38) {
-        self.keyUp = true;
-        self.actionX = null;
-        self.actionY = null;
+        controls.keyUp = true;
+        controls.actionX = null;
+        controls.actionY = null;
       }
 
       // If key code is 39 (right key)...
       else if (event.keyCode == 39) {
-        self.keyRight = true;
-        self.actionX = null;
-        self.actionY = null;
+        controls.keyRight = true;
+        controls.actionX = null;
+        controls.actionY = null;
       }
 
       // If key code is 40 (down key)...
       else if (event.keyCode == 40) {
-        self.keyDown = true;
-        self.actionX = null;
-        self.actionY = null;
+        controls.keyDown = true;
+        controls.actionX = null;
+        controls.actionY = null;
       }
 
       // If key code is 37 (left key)...
       else if (event.keyCode == 37) {
-        self.keyLeft = true;
-        self.actionX = null;
-        self.actionY = null;
+        controls.keyLeft = true;
+        controls.actionX = null;
+        controls.actionY = null;
       }
 
     });
@@ -75,39 +78,39 @@ MenuControls.prototype = {
     //On key release...
     document.addEventListener('keyup', function(event){
 
-      var self = game.level.controls;
-
       // If key code is 13 (Enter/Return key)...
       if (event.keyCode == 13) {
-        self.action = false;
+        controls.action = false;
+        controls.actionX = null;
+        controls.actionY = null;
       }
 
       // If key code is 39 (right key)...
       else if (event.keyCode == 39) {
-        self.keyRight = false;
-        self.actionX = null;
-        self.actionY = null;
+        controls.keyRight = false;
+        controls.actionX = null;
+        controls.actionY = null;
       }
 
       // If key code is 37 (left key)...
       else if (event.keyCode == 37) {
-        self.keyLeft = false;
-        self.actionX = null;
-        self.actionY = null;
+        controls.keyLeft = false;
+        controls.actionX = null;
+        controls.actionY = null;
       }
 
       // If key code is 38 (up key)...
       else if (event.keyCode == 38) {
-        self.keyUp = false;
-        self.actionX = null;
-        self.actionY = null;
+        controls.keyUp = false;
+        controls.actionX = null;
+        controls.actionY = null;
       }
 
       // If key code is 40 (down key)...
       else if (event.keyCode == 40) {
-        self.keyDown = false;
-        self.actionX = null;
-        self.actionY = null;
+        controls.keyDown = false;
+        controls.actionX = null;
+        controls.actionY = null;
       }
 
     });
@@ -117,14 +120,15 @@ MenuControls.prototype = {
   // Set mouse handlers.
   setMouseHandlers: function() {
 
-    var self = game.level.controls;
+    // Reference level controls.
+    var controls = game.level.controls;
 
     // On mouse click release...
     document.addEventListener('mouseup', function(event){
 
-      self.action = true;
-      self.actionX = event['clientX'];
-      self.actionY = event['clientY'];
+      controls.action = true;
+      controls.actionX = event['clientX'];
+      controls.actionY = event['clientY'];
 
     });
 
@@ -133,20 +137,21 @@ MenuControls.prototype = {
   // Set touch handlers.
   setTouchHandlers: function() {
 
-    // If dpad touch end...
-    document.body.addEventListener('touchend', function(event){
+    // Reference level controls.
+    var controls = game.level.controls;
 
+    // If dpad touch start...
+    document.body.addEventListener('touchstart', function(event){
+
+      // Prevent touch scrolling.
       event.preventDefault();
 
-      var self = game.level.controls;
-      var touchCount = event['changedTouches'].length;
-
       // Loop through touch points.
-      for (var index = 0; index < touchCount; index++) {
+      for (var index = 0; index < event['touches'].length; index++) {
 
-        self.action = true;
-        self.actionX = event['changedTouches'][index]['clientX'];
-        self.actionY = event['changedTouches'][index]['clientY'];
+        controls.action = true;
+        controls.actionX = event['touches'][index]['clientX'];
+        controls.actionY = event['touches'][index]['clientY'];
 
       }
 

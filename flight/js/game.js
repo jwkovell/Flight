@@ -42,8 +42,8 @@ Game.prototype = {
   // Prepare game.
   prepare: function() {
 
-    // Instantiate level 0.
-    this.level = new Level_0();
+    // Instantiate menu.
+    this.level = new Menu();
 
     // Prepare level.
     this.level.prepare();
@@ -65,9 +65,13 @@ Game.prototype = {
   },
 
   // Load level.
-  loadLevel: function() {
+  loadLevel: function(level) {
 
-    
+    // Instantiate level.
+    this.level = new window['Level_' + level]();
+
+    // Prepare level.
+    this.level.prepare();
 
   },
 
