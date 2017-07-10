@@ -135,16 +135,16 @@ Dragon.prototype = {
     }
 
     // If direction is defined.
-    if (direction !== null) {
+    if (controls.direction !== null) {
 
       // Update Y coordinates based on current control direction.
-      this.y = this.y + (this.speed * Math.sin( direction ));
+      this.y = this.y + (this.speed * Math.sin( controls.direction ));
 
       // If dpad type is full...
       if (controls.dpadType == 'full') {
 
         // Update X coordinates based on current control direction.
-        this.x = this.x + (this.speed * Math.cos( direction ));
+        this.x = this.x + (this.speed * Math.cos( controls.direction ));
 
       }
 

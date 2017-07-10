@@ -6,7 +6,13 @@ function Level_1_1(options = {}) {
   Level.call(this, options);
 
   this.background = [];
-  this.enemies = [];
+  this.enemies = [
+    new Enemy({
+      x: 1000,
+      y: 250,
+      regionStart: 50,
+    }),
+  ];
   this.flames = [];
   this.fireballs = [];
   this.foreground = [];

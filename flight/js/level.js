@@ -6,6 +6,11 @@ function Level() {
   this.controls = {};
   this.hud = {};
 
+  this.offsetX = 0;
+  this.offsetY = 0;
+  this.offsetSpeedX = 4;
+  this.offsetSpeedY = 0;
+
   this.background = [];
   this.enemies = [];
   this.flames = [];
@@ -19,8 +24,6 @@ Level.prototype = {
   // Prepare level.
   prepare: function() {
 
-    console.log('prepare level');
-
     // Instantiate controls.
     this.controls = new Controls();
     this.controls.prepare();
@@ -32,10 +35,22 @@ Level.prototype = {
     this.hud = new Hud();
     this.hud.prepare();
 
+    // Loop through the enemies.
+    this.enemies.forEach(function(enemy){
+
+      // Prepare enemy.
+      enemy.prepare();
+
+    });    
+
   },
 
   // Update level.
   update: function() {
+
+    // Increment stage offset by offset speed.
+    this.offsetX = this.offsetX + this.offsetSpeedX;
+    this.offsetY = this.offsetY + this.offsetSpeedY;
 
     // Update controls.
     this.controls.update();
@@ -45,6 +60,14 @@ Level.prototype = {
 
     // Update HUD.
     this.hud.update();
+
+    // Loop through the enemies.
+    this.enemies.forEach(function(enemy){
+
+      // Update enemy.
+      enemy.update();
+
+    });    
 
   },
 
@@ -59,6 +82,14 @@ Level.prototype = {
 
     // Draw HUD.
     this.hud.draw();
+
+    // Loop through the enemies.
+    this.enemies.forEach(function(enemy){
+
+      // Draw enemy.
+      enemy.draw();
+
+    });  
 
   }
 

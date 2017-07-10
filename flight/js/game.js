@@ -11,11 +11,12 @@ function Game() {
   this.screenWidth = window.innerWidth;
   this.screenHeight = window.innerHeight;
 
+  /*
   this.offsetX = 0;
   this.offsetY = 0;
-
   this.offsetSpeedX = 4;
   this.offsetSpeedY = 0;
+  */
 
   this.parallaxRate = 1.1;
 

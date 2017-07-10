@@ -4,100 +4,98 @@ function Menu(options = {}) {
 
   this.selectedLevel = 0;
   this.labelX = 20;
-  this.labelY = 480;
+  this.labelY = 50;
   
   this.levels = [
     {
       id: '1_1',
-      x: 50,
-      y: 150,
+      x: 705,
+      y: 45,
       radius: 10,
-      name: 'Green'
-    },{
-      id: '1_2',
-      x: 100,
-      y: 50,
-      radius: 10,
-      name: 'Blue'
-    },{
-      id: '1_3',
-      x: 150,
-      y: 100,
-      radius: 10,
-      name: 'Red'
+      color: '#e0c271',
+      realm: 'Dragonhome',
+      name: 'The Pillar of the World'
     },{
       id: '2_1',
-      x: 800,
+      x: 865,
       y: 50,
       radius: 10,
-      name: 'Yellow'
-    },{
-      id: '2_2',
-      x: 850,
-      y: 75,
-      radius: 10,
-      name: 'Orange'
-    },{
-      id: '2_3',
-      x: 875,
-      y: 150,
-      radius: 10,
-      name: 'Purple'
+      color: '#71cf29',
+      realm: 'The Viridian Labyrinth',
+      name: 'The Behemoth'
     },{
       id: '3_1',
-      x: 425,
-      y: 275,
+      x: 555,
+      y: 105,
       radius: 10,
-      name: 'Lime'
-    },{
-      id: '3_2',
-      x: 450,
-      y: 225,
-      radius: 10,
-      name: 'Teal'
-    },{
-      id: '3_3',
-      x: 500,
-      y: 250,
-      radius: 10,
-      name: 'Slate'
+      color: '#993292',
+      realm: 'Starfall Isles',
+      name: 'The Observatory'
     },{
       id: '4_1',
-      x: 50,
-      y: 375,
+      x: 650,
+      y: 135,
       radius: 10,
-      name: 'Wheat'
-    },{
-      id: '4_2',
-      x: 125,
-      y: 325,
-      radius: 10,
-      name: 'Black'
-    },{
-      id: '4_3',
-      x: 150,
-      y: 400,
-      radius: 10,
-      name: 'White'
+      color: '#d02700',
+      realm: 'The Scarred Wasteland',
+      name: 'The Wyrmwound'
     },{
       id: '5_1',
-      x: 700,
-      y: 375,
+      x: 745,
+      y: 140,
       radius: 10,
-      name: 'Tan'
+      color: '#29165f',
+      realm: 'The Tangled Wood',
+      name: 'Forum of the Obscured Crescent'
     },{
-      id: '5_2',
-      x: 750,
-      y: 350,
+      id: '6_1',
+      x: 900,
+      y: 175,
       radius: 10,
-      name: 'Gray'
+      color: '#e7ff3b',
+      realm: 'Sunbeam Ruins',
+      name: 'Sundial Terrace'
     },{
-      id: '5_3',
-      x: 800,
-      y: 400,
+      id: '7_1',
+      x: 730,
+      y: 220,
       radius: 10,
-      name: 'Peach'
-    },
+      color: '#e5e8db',
+      realm: 'The Sea of a Thousand Currents',
+      name: 'Fishspine Reef'
+    },{
+      id: '8_1',
+      x: 615,
+      y: 305,
+      radius: 10,
+      color: '#dfe2d4',
+      realm: 'The Windswept Plateau',
+      name: 'The Twisting Crescendo'
+    },{
+      id: '9_1',
+      x: 715,
+      y: 300,
+      radius: 10,
+      color: '#ff9600',
+      realm: 'The Ashfall Waste',
+      name: 'The Great Furnace'
+    },{
+      id: '10_1',
+      x: 865,
+      y: 330,
+      radius: 10,
+      color: '#42e7bd',
+      realm: 'The Shifting Expanse',
+      name: 'Tempest Spire'
+    },{
+      id: '11_1',
+      x: 650,
+      y: 415,
+      radius: 10,
+      color: '#73baec',
+      realm: 'The Southern Icefield',
+      name: 'The Fortress of Ends'
+    }
   ]
 
 }
@@ -229,16 +227,20 @@ Menu.prototype.draw = function(){
   // Reset transformations and styles
   game.resetStage();
 
+  // Load images.
+  /*
+  var image = document.getElementById('map');
+  game.stage.drawImage(image, 0, 0, game.width, game.height);
+  */
+
   // Loop through levels.
   for (var levelIndex = 0; levelIndex < this.levels.length; levelIndex++) {
 
     var level = this.levels[levelIndex];
 
     if (levelIndex == this.selectedLevel) {
-      game.stage.strokeStyle="rgba(0, 0, 0, .2)";
       level.radius = 15;
     } else {
-      game.stage.strokeStyle="rgba(0, 0, 0, .1)";
       level.radius = 10;
     }
 
@@ -248,8 +250,14 @@ Menu.prototype.draw = function(){
     // Draw stage.
     game.stage.beginPath();
     game.stage.arc(0, 0, level.radius, 0, 2 * Math.PI);
-    game.stage.lineWidth = 4;
+    game.stage.lineWidth = 8;
+    game.stage.strokeStyle = "rgba(255, 255, 255, 1)";
+    game.stage.fillStyle = level.color;
+    game.stage.shadowBlur = 5;
+    game.stage.shadowColor = "black";
     game.stage.stroke();
+    game.stage.shadowBlur = 0;
+    game.stage.fill();
     game.stage.closePath();
 
     // Reset transformations and styles
@@ -258,8 +266,11 @@ Menu.prototype.draw = function(){
   }
 
   // Draw stage label.
-  game.stage.font = '30px Arial';
-  game.stage.fillText(this.levels[this.selectedLevel].name, this.labelX, this.labelY);
+  game.stage.fillStyle="rgba(255, 255, 255, 1)";
+  game.stage.font = '28px Arial';
+  game.stage.fillText(this.levels[this.selectedLevel].realm, this.labelX, this.labelY);
+  game.stage.font = '20px Arial';
+  game.stage.fillText(this.levels[this.selectedLevel].name, this.labelX, this.labelY + 30);
 
   // Draw controls.
   this.controls.draw();

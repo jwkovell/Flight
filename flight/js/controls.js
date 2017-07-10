@@ -22,9 +22,9 @@ function Controls(options = {}) {
 
   this.dpadEnabled = true;
   this.dpadActive = false;
-  this.dpadType = options['dpadType'] || 'vertical';
+  this.dpadType = options['dpadType'] || 'vertical'; //full
   this.dpadLocation = 'left';
-  this.dpadIgnoreRadius = 20;
+  this.dpadIgnoreRadius = 10;
 
 }
 
@@ -342,11 +342,11 @@ Controls.prototype = {
     if (this.dpadEnabled) {
 
       // Get canvas/screen pixel ratio.
-      var screenRatio = game.width / game.screenWidth;
+      //var screenRatio = game.width / game.screenWidth;
 
       // Update offset at canvas scale.
-      this.offsetX = x - this.originX * screenRatio;
-      this.offsetY = y - this.originY * screenRatio;
+      this.offsetX = x - this.originX;
+      this.offsetY = y - this.originY;
 
       // If dpad type is vertical...
       if (this.dpadType == 'vertical') {
