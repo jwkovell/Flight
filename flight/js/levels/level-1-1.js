@@ -10,7 +10,7 @@ function Level_1_1(options = {}) {
     new Enemy({
       x: 1000,
       y: 250,
-      regionStart: 50,
+      spawnX: 50,
     }),
   ];
   this.flames = [];
@@ -21,28 +21,3 @@ function Level_1_1(options = {}) {
 
 Level_1_1.prototype = Object.create(Level.prototype);
 Level_1_1.prototype.constructor = Level_1_1;
-
-/*
-
-// Overwrite prepare method.
-Level_1_1.prototype.prepare = function(){
-
-  Level.prototype.prepare();
-
-}
-
-// Overwrite update method.
-Level_1_1.prototype.update = function(){
-
-  Level.prototype.update();
-
-}
-
-// Overwrite draw method.
-Level_1_1.prototype.draw = function(){
-
-  Level.prototype.draw();
-
-}
-
-*/

@@ -25,6 +25,8 @@ function Dragon(options = {}) {
   this.maxStamina = 100;
 
   this.flameCost = 2;
+  this.flameDurration = 0;
+  this.flameDelay = 4;
   this.fireballCost = 20;
 
   this.collisionBox = {};
@@ -44,11 +46,64 @@ Dragon.prototype = {
 
   update: function() {
 
+    // Reference level.
+    var level = game.level;
+
     // Reference controls.
-    var controls = game.level.controls;
+    var controls = level.controls;
 
     // Decrement invincibility frames.
     this.invincibilityFrames--;
+
+    // If action is in progress...
+    if (controls.action) {
+
+      // Increment flame duration.
+      this.flameDuration++;
+
+      // If action has been active for more frames than the flame delay...
+      if (this.flameDuration >= this.flameDelay) {
+
+        // If dragon has enough stamina to breath flames...
+        if (this.stamina > this.flameCost) {
+
+          // If this is the 3rd frame...
+          if (this.flameDuration % 1 === 0) {
+
+            // Update dragon's stamina.
+            this.stamina = this.stamina - this.flameCost;
+
+            // Add a new flame to the stage.
+            level.flames.push(new Flame());
+
+          }
+
+        }
+
+      }
+
+    } else {
+
+      // If fire was active for fewer frames than the flame delay...
+      if (this.flameDuration < this.flameDelay && this.flameDuration > 0) {
+
+        // If dragon has enough stamina to breath a fireball...
+        if (this.stamina > this.fireballCost) {
+
+          // Update dragon's stamina.
+          this.stamina = this.stamina - this.fireballCost;
+
+          // Add a new fireball to the stage.
+          level.fireballs.push(new Fireball());
+
+        }
+
+      }
+
+      // Reset flame duration.
+      this.flameDuration = 0;
+
+    }
 
     // If stamina has not maxed out...
     if (this.stamina < this.maxStamina) {

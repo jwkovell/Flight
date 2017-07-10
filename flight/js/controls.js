@@ -26,6 +26,7 @@ function Controls(options = {}) {
   this.dpadLocation = 'left';
   this.dpadIgnoreRadius = 10;
 
+  this.pause = false;
 }
 
 Controls.prototype = {
@@ -53,9 +54,14 @@ Controls.prototype = {
     //On key press...
     document.addEventListener('keydown', function(event){
 
-      // If key code is 70 (f key)...
+      // If key code is 70 (F key)...
       if (event.keyCode == 70) {
         controls.action = true;
+      }
+
+      // If key code is 13 (enter/return key)...
+      else if (event.keyCode == 13) {
+        controls.pause = true;
       }
 
       // If key code is 38 (up key)...
@@ -78,7 +84,7 @@ Controls.prototype = {
         controls.keyLeft = true;
       }
 
-    });
+    }, false);
 
     //On key release...
     document.addEventListener('keyup', function(event){
@@ -86,6 +92,11 @@ Controls.prototype = {
       // If key code is 70 (f key)...
       if (event.keyCode == 70) {
         controls.action = false;
+      }
+
+      // If key code is 13 (enter/return key)...
+      else if (event.keyCode == 13) {
+        controls.pause = false;
       }
 
       // If key code is 39 (right key)...
@@ -108,7 +119,7 @@ Controls.prototype = {
         controls.keyDown = false;
       }
 
-    });
+    }, false);
 
   },
 
@@ -127,7 +138,7 @@ Controls.prototype = {
       // Process event start.
       controls.pointerStart(event['clientX'], event['clientY']);
 
-    });
+    }, {passive: true});
 
     // On mouse click release...
     document.addEventListener('mouseup', function(event){
@@ -138,7 +149,7 @@ Controls.prototype = {
       // Process event end.
       controls.pointerEnd(event['clientX'], event['clientY']);
 
-    });
+    }, {passive: true});
 
     // On mouse move...
     document.addEventListener('mousemove', function(event){
@@ -151,7 +162,7 @@ Controls.prototype = {
 
       }
 
-    });
+    }, {passive: true});
 
   },
 
@@ -180,7 +191,7 @@ Controls.prototype = {
 
       }
 
-    }, {passive: false});
+    }, {passive: true});
 
     // If touch end...
     document.body.addEventListener('touchend', function(event){
@@ -201,7 +212,7 @@ Controls.prototype = {
 
       }
 
-    }, {passive: false});
+    }, {passive: true});
 
     // If touch move...
     document.body.addEventListener('touchmove', function(event){
@@ -223,24 +234,11 @@ Controls.prototype = {
 
       }
 
-    }, {passive: false});
+    }, {passive: true});
 
   },
 
   update: function() {
-
-    // If action is active...
-    if (this.action) {
-
-      // Increment action duration.
-      this.actionDuration++;
-
-    } else {
-
-      // Reset action duration to 0.
-      this.actionDuration = 0;
-
-    }
 
     // If dpad is not active...
     if (this.dpadActive === false) {

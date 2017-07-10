@@ -155,7 +155,7 @@ MenuControls.prototype = {
 
       }
 
-    }, {passive: false});
+    }, {passive: true});
 
   },
 

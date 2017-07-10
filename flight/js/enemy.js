@@ -12,8 +12,8 @@ function Enemy(options = {}) {
   this.width = options['width'] || 20;
   this.height = options['height'] || 20;
 
-  this.regionStart = options['regionStart'] || 0;
-  this.regionEnd = options['regionEnd'] || Infinity;
+  this.spawnX = options['spawnX'] || 0;
+  this.removeX = options['removeX'] || Infinity;
 
   this.opacity = options['opacity'] || 1;
   this.damage = options['damage'] || 5;
@@ -172,13 +172,13 @@ Enemy.prototype = {
     var level = game.level;
 
     // If level has scrolled into this object's region...
-    if (level.offsetX >= this.regionStart) {
+    if (level.offsetX >= this.spawnX) {
 
       // Object is active.
       this.active = true;
 
       // If level has not scrolled out of this object's region...
-      if (level.offsetX <= this.regionEnd) {
+      if (level.offsetX <= this.removeX) {
 
         // Update frame count;
         this.frame++;

@@ -11,17 +11,11 @@ function Game() {
   this.screenWidth = window.innerWidth;
   this.screenHeight = window.innerHeight;
 
-  /*
-  this.offsetX = 0;
-  this.offsetY = 0;
-  this.offsetSpeedX = 4;
-  this.offsetSpeedY = 0;
-  */
-
   this.parallaxRate = 1.1;
 
   this.levelIndex = 0;
   this.level = {};
+  this.state = 'default';
 
   this.loop = {};
 
@@ -87,6 +81,33 @@ Game.prototype = {
     // Draw level.
     this.level.draw();
 
-  }
+  },
+
+  // Check collision between given objects.
+  checkCollision: function(objectA, objectB) {
+
+    var collisionBoxA = objectA.collisionBox;
+    var collisionBoxB = objectB.collisionBox;
+
+    // Assume no collision.
+    var collision = false;
+
+    // Check for basic collision
+    if (
+      collisionBoxA.x < collisionBoxB.x + collisionBoxB.width &&
+      collisionBoxA.x + collisionBoxA.width > collisionBoxB.x &&
+      collisionBoxA.y < collisionBoxB.y + collisionBoxB.height &&
+      collisionBoxA.height + collisionBoxA.y > collisionBoxB.y
+    ) {
+
+      // Collision detected.
+      collision = true;
+
+    }
+
+    // Return result.
+    return collision;
+
+  },
 
 };
