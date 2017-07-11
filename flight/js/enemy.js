@@ -1,7 +1,9 @@
 'use strict';
 
-function Enemy(options = {}) {
+function Enemy(options = {}, overrides = {}) {
 
+
+  // Basic properties.
   this.x = options['x'] || 0;
   this.y = options['y'] || 0;
   this.z = options['z'] || 0;
@@ -15,38 +17,60 @@ function Enemy(options = {}) {
   this.spawnX = options['spawnX'] || 0;
   this.removeX = options['removeX'] || Infinity;
 
+  this.invincibilityFrames = options['invincibilityFrames'] || 0;
+  this.maxInvincibilityFrames = options['maxInvincibilityFrames'] || 10;
+
+  this.health = options['health'] || 5;
+  this.useTimeline = options['useTimeline'] || true;
   this.opacity = options['opacity'] || 1;
   this.damage = options['damage'] || 5;
 
-  this.invincibilityFrames = 0;
-  this.maxInvincibilityFrames = 10;
+  // Properties with overridable attributes.
+  this.overrides = overrides;
 
-  var defaultStates = {
-    default: [],
-    dead: [],
+  this.states = {
+    'default': [],
+    'dead': []
   };
 
-  this.states = options['states'] || defaultStates;
-  this.currentBehaviors = options['currentBehaviors'] || [];
-
-  this.health = options['health'] || 5;
-
-  this.collisionBox = {};
-  this.active = false;
-  this.frame = 0;
-
-  var defaultTimeline = {
+  this.timeline = {
     0: 'default'
   };
 
-  this.timeline = options['timeline'] || defaultTimeline;
-  this.useTimeline = true;
+  // Properties with processed attributes.
+  this.active = false;
+  this.frame = 0;
+  this.currentBehaviors = [];
+  this.collisionBox = {};
 
 }
 
 Enemy.prototype = {
 
+  processOverrides: function(original = {}, overrides = {}) {
+
+    for (var property in overrides) {
+
+      var type = Object.prototype.toString.call(overrides[property]);
+
+      if (type.match('Object')) {
+
+        this.processOverrides(original[property], overrides[property]);
+    
+      } else {
+
+        original[property] = overrides[property];
+
+      }
+
+    }
+
+  },
+
   prepare: function() {
+
+    // Process overrides.
+    this.processOverrides(this, this.overrides);
 
     // Generate collision box.
     this.collisionBox = new CollisionBox();
@@ -94,6 +118,14 @@ Enemy.prototype = {
     // Update current behaviors to those from this state.
     this.currentBehaviors = this.states[state];
 
+    // Loop through current behaviors.
+    for (var behavoirID in this.currentBehaviors) {
+
+      // Prepare behavior.
+      this.prepareBehavior(behavoirID);
+
+    }
+
   },
 
   applyTimeline: function() {
@@ -127,13 +159,46 @@ Enemy.prototype = {
 
   },
 
+
+
+
+  prepareBehavior: function(behavoirID) {
+
+    var behaviorResuts = this.currentBehaviors[behavoirID].prepare({
+      x: this.x,
+      y: this.y,
+      rotation: this.rotation,
+      direction: this.direction,
+      opacity: this.opacity,
+    });
+
+    // Loop through result attributes.
+    for (var property in behaviorResuts) {
+
+      // Restrict loop to own properties.
+      if (behaviorResuts.hasOwnProperty(property)) {
+
+        // Update enemy property.
+        this[property] = behaviorResuts[property];
+
+      }
+
+    }
+
+  },
+
+
+
+
+
   applyBehavior: function(behavoirID) {
 
     var behaviorResuts = this.currentBehaviors[behavoirID].apply({
       x: this.x,
       y: this.y,
       rotation: this.rotation,
-      direction: this.direction
+      direction: this.direction,
+      opacity: this.opacity,
     });
 
     // Loop through result attributes.
@@ -201,7 +266,7 @@ Enemy.prototype = {
         for (var behavoirID in this.currentBehaviors) {
 
           // Apply behavior.
-          this.applyBehavior(behaviorID);
+          this.applyBehavior(behavoirID);
 
         }
 
@@ -237,31 +302,21 @@ Enemy.prototype = {
   // Update collision box.
   updateCollisionBox: function() {
 
-    // If the enemy is dead...
-    if (this.status == 'dead') {
+    // Calculate sin and cos for current rotation.
+    var rotationSin = Math.abs(Math.sin(this.rotation));
+    var rotationCos = Math.abs(Math.cos(this.rotation));
 
-      // Shrink collision box.
-      this.collisionBox.set();
+    // Calculate collision box width and height.
+    var boxWidth = this.height * rotationSin + this.width * rotationCos;
+    var boxHeight = this.height * rotationCos + this.width * rotationSin;
 
-    } else {
-
-      // Calculate sin and cos for current rotation.
-      var rotationSin = Math.abs(Math.sin(this.rotation));
-      var rotationCos = Math.abs(Math.cos(this.rotation));
-
-      // Calculate collision box width and height.
-      var boxWidth = this.height * rotationSin + this.width * rotationCos;
-      var boxHeight = this.height * rotationCos + this.width * rotationSin;
-
-      // Set updated collision box values.
-      this.collisionBox.set({
-        x: this.x - boxWidth / 2,
-        y: this.y - boxHeight / 2,
-        width: boxWidth,
-        height: boxHeight
-      });
-
-    };
+    // Set updated collision box values.
+    this.collisionBox.set({
+      x: this.x - boxWidth / 2,
+      y: this.y - boxHeight / 2,
+      width: boxWidth,
+      height: boxHeight
+    });
 
   },
 
@@ -292,10 +347,12 @@ Enemy.prototype = {
       game.stage.rotate(this.rotation);
 
       if (this.invincibilityFrames > 0) {
-        game.stage.globalAlpha = .5;
+        game.stage.strokeStyle="#0000ff";
       }
 
-      // Draw
+      game.stage.globalAlpha = this.opacity;
+
+      // Draw.
       game.stage.beginPath();
       game.stage.rect(-this.width / 2, -this.height / 2, this.width, this.height);
       game.stage.stroke();

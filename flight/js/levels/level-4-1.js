@@ -6,7 +6,48 @@ function Level_4_1(options = {}) {
   Level.call(this, options);
 
   this.background = [];
-  this.enemies = [];
+  this.enemies = [
+    new Enemy({
+      x: 1000,
+      y: 50,
+      spawnX: 50,
+    }),
+    new Enemy({
+      x: 1000,
+      y: 150,
+      spawnX: 50,
+    }),
+    new Enemy({
+      x: 1000,
+      y: 200,
+      spawnX: 50,
+    }),
+    new Enemy({
+      x: 1000,
+      y: 250,
+      spawnX: 50,
+    }),
+    new Enemy({
+      x: 1000,
+      y: 300,
+      spawnX: 50,
+    }),
+    new Enemy({
+      x: 1000,
+      y: 350,
+      spawnX: 50,
+    }),
+    new Enemy({
+      x: 1000,
+      y: 400,
+      spawnX: 50,
+    }),
+    new Enemy({
+      x: 1000,
+      y: 450,
+      spawnX: 50,
+    }),
+  ];
   this.flames = [];
   this.fireballs = [];
   this.foreground = [];
@@ -15,28 +56,3 @@ function Level_4_1(options = {}) {
 
 Level_4_1.prototype = Object.create(Level.prototype);
 Level_4_1.prototype.constructor = Level_4_1;
-
-/*
-
-// Overwrite prepare method.
-Level_4_1.prototype.prepare = function(){
-
-  Level.prototype.prepare();
-
-}
-
-// Overwrite update method.
-Level_4_1.prototype.update = function(){
-
-  Level.prototype.update();
-
-}
-
-// Overwrite draw method.
-Level_4_1.prototype.draw = function(){
-
-  Level.prototype.draw();
-
-}
-
-*/

@@ -260,12 +260,12 @@ Level.prototype = {
     for (var enemyIndex = this.enemies.length - 1; enemyIndex >= 0; enemyIndex--) {
 
       // If this enemy is no longer active...
-      if (this.enemies[enemyIndex].active === false) {
+      /* if (this.enemies[enemyIndex].isExpired === false) {
 
         // Remove the enemy.
         this.enemies.splice(enemyIndex, 1);
 
-      }
+      } */
 
     }
 

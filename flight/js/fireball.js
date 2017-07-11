@@ -10,7 +10,6 @@ function Fireball(options = {}) {
   this.duration = options['duration'] || 100;
   this.scaleRate = options['scaleRate'] || 1;
   this.speed = options['speed'] || 15;
-  this.duration = options['duration'] || 200;
   this.damage = options['damage'] || 10;
 
 }
@@ -38,7 +37,7 @@ Fireball.prototype.draw = function(){
 
   // Position.
   game.stage.translate(this.x, this.y);
-  game.stage.rotate(this.rotation * Math.PI / 180);
+  game.stage.rotate(this.rotation);
 
   // Draw fireball.
   game.stage.globalAlpha = this.opacity;
@@ -55,8 +54,8 @@ Fireball.prototype.draw = function(){
   game.stage.closePath();
 
   // Load images.
-  //var image = document.getElementById('flame');
-  //game.stage.drawImage(image, -this.width / 2, -this.height / 2, this.width, this.height);
+  var image = document.getElementById('flame');
+  game.stage.drawImage(image, -this.width / 2, -this.height / 2, this.width, this.height);
 
   game.stage.globalAlpha = 1;
 

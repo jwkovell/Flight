@@ -6,7 +6,21 @@ function Level_2_1(options = {}) {
   Level.call(this, options);
 
   this.background = [];
-  this.enemies = [];
+  this.enemies = [
+    new Enemy({
+      x: 1000,
+      y: 250,
+      spawnX: 50,
+    }),
+    new FancyBee({
+      x: 1000,
+      y: 250,
+      spawnX: 50,
+      sphereBehaviorOverride: {
+        direction: Math.PI * 2 * (1 / 6)
+      }
+    }),
+  ];
   this.flames = [];
   this.fireballs = [];
   this.foreground = [];
@@ -15,28 +29,3 @@ function Level_2_1(options = {}) {
 
 Level_2_1.prototype = Object.create(Level.prototype);
 Level_2_1.prototype.constructor = Level_2_1;
-
-/*
-
-// Overwrite prepare method.
-Level_2_1.prototype.prepare = function(){
-
-  Level.prototype.prepare();
-
-}
-
-// Overwrite update method.
-Level_2_1.prototype.update = function(){
-
-  Level.prototype.update();
-
-}
-
-// Overwrite draw method.
-Level_2_1.prototype.draw = function(){
-
-  Level.prototype.draw();
-
-}
-
-*/

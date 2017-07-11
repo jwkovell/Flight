@@ -282,7 +282,11 @@ Dragon.prototype = {
     game.stage.globalAlpha = .25;
     game.stage.beginPath();
     game.stage.lineWidth = 4;
-    game.stage.strokeStyle="#ff0000";
+    if (this.invincibilityFrames > 0) {
+      game.stage.strokeStyle="#00ff00";
+    } else {
+      game.stage.strokeStyle="#ff0000";
+    }
     game.stage.rect(this.collisionBox['x'], this.collisionBox['y'], this.collisionBox['width'], this.collisionBox['height']);
     game.stage.stroke();
     game.stage.closePath();
@@ -293,10 +297,6 @@ Dragon.prototype = {
     // Position.
     game.stage.translate(this.x, this.y);
     game.stage.rotate(this.rotation);
-
-    if (this.invincibilityFrames > 0) {
-      game.stage.globalAlpha = .5;
-    }
 
     // Draw dragon.
     game.stage.beginPath();

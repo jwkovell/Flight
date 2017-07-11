@@ -176,7 +176,7 @@ Controls.prototype = {
     document.body.addEventListener('touchstart', function(event){
 
       // Prevent scrolling.
-      event.preventDefault();
+      //event.preventDefault();
 
       var touchCount = event['touches'].length;
 
@@ -197,7 +197,7 @@ Controls.prototype = {
     document.body.addEventListener('touchend', function(event){
 
       // Prevent scrolling.
-      event.preventDefault();
+      //event.preventDefault();
 
       var touchCount = event['changedTouches'].length;
 
@@ -218,7 +218,7 @@ Controls.prototype = {
     document.body.addEventListener('touchmove', function(event){
 
       // Prevent scrolling.
-      event.preventDefault();
+      //event.preventDefault();
 
       // Get touch count.
       var touchCount = event['touches'].length;

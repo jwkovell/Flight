@@ -9,3 +9,10 @@ document.addEventListener('DOMContentLoaded', function(){
   game.prepare();
 
 });
+
+window.addEventListener('resize', function() {
+
+  game.screenWidth = window.innerWidth;
+  game.screenHeight = window.innerHeight;
+
+}, true);

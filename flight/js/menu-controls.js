@@ -144,7 +144,7 @@ MenuControls.prototype = {
     document.body.addEventListener('touchstart', function(event){
 
       // Prevent scrolling.
-      event.preventDefault();
+      //event.preventDefault();
 
       // Loop through touch points.
       for (var index = 0; index < event['touches'].length; index++) {

@@ -183,8 +183,8 @@ Flame.prototype = {
     game.stage.closePath();
 
     // Load images.
-    //var image = document.getElementById('flame');
-    //game.stage.drawImage(image, -this.width / 2, -this.height / 2, this.width, this.height);
+    var image = document.getElementById('flame');
+    game.stage.drawImage(image, -this.width / 2, -this.height / 2, this.width, this.height);
 
   },
 

@@ -12,6 +12,84 @@ function Level_1_1(options = {}) {
       y: 250,
       spawnX: 50,
     }),
+    new Bee({
+      x: 1000,
+      y: 250,
+      spawnX: 50,
+    },{
+      states: {
+        'default': [
+          new Circle({
+            direction: Math.PI * 1 / 3
+          })
+        ]
+      }
+    }),
+    new Bee({
+      x: 1000,
+      y: 250,
+      spawnX: 50,
+    },{
+      states: {
+        'default': [
+          new Circle({
+            direction: Math.PI * 2 / 3
+          })
+        ]
+      }
+    }),
+    new Bee({
+      x: 1000,
+      y: 250,
+      spawnX: 50,
+    },{
+      states: {
+        'default': [
+          new Circle({
+            direction: Math.PI
+          })
+        ]
+      }
+    }),
+    new Bee({
+      x: 1000,
+      y: 250,
+      spawnX: 50,
+    },{
+      states: {
+        'default': [
+          new Circle({
+            direction: Math.PI * 4 / 3
+          })
+        ]
+      }
+    }),
+    new Bee({
+      x: 1000,
+      y: 250,
+      spawnX: 50,
+    },{
+      states: {
+        'default': [
+          new Circle({
+            direction: Math.PI * 5 / 3
+          })
+        ]
+      }
+    }),
+    new Bee({
+      x: 1000,
+      y: 250,
+      spawnX: 50,
+    },{
+      states: {
+        'default': [
+          new Circle({
+            direction: Math.PI * 2
+          })
+        ]
+      }
+    }),
   ];
   this.flames = [];
   this.fireballs = [];

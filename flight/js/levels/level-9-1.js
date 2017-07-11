@@ -16,27 +16,3 @@ function Level_9_1(options = {}) {
 Level_9_1.prototype = Object.create(Level.prototype);
 Level_9_1.prototype.constructor = Level_9_1;
 
-/*
-
-// Overwrite prepare method.
-Level_9_1.prototype.prepare = function(){
-
-  Level.prototype.prepare();
-
-}
-
-// Overwrite update method.
-Level_9_1.prototype.update = function(){
-
-  Level.prototype.update();
-
-}
-
-// Overwrite draw method.
-Level_9_1.prototype.draw = function(){
-
-  Level.prototype.draw();
-
-}
-
-*/
