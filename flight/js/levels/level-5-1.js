@@ -6,7 +6,19 @@ function Level_5_1(options = {}) {
   Level.call(this, options);
 
   this.background = [];
-  this.enemies = [];
+  this.enemies = [
+    new Enemy({
+      x: 1000,
+      y: 250,
+      spawnX: 50,
+    },{
+      states: {
+        'default': [
+          new Bob()
+        ]
+      }
+    }),
+  ];
   this.flames = [];
   this.fireballs = [];
   this.foreground = [];

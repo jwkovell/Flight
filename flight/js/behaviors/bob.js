@@ -6,7 +6,10 @@ function Bob(options = {}) {
   Circle.call(this, options);
 
   this.radiusX = options['radiusX'] || 0;
-  this.radiusY = options['radiusY'] || 30;
+  this.radiusY = options['radiusY'] || 50;
+
+  this.direction = options['direction'] || 0;
+  this.rotationSpeed = options['rotationSpeed'] || Math.PI / 10;
 
 }
 

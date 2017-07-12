@@ -15,9 +15,9 @@ function Sphere(options = {}) {
   this.directionX = options['directionX'] || 0;
   this.directionY = options['directionY'] || Math.PI / 2;
 
-  this.rotationSpeed = options['rotationSpeed'] || 0;
-  this.rotationSpeedX = options['rotationSpeed'] || 0;
-  this.rotationSpeedY = options['rotationSpeed'] || 0;
+  this.rotationSpeed = options['rotationSpeed'] || Math.PI / 15;
+  this.rotationSpeedX = options['rotationSpeedX'] || Math.PI / 30;
+  this.rotationSpeedY = options['rotationSpeedY'] || 0;
 
 }
 
@@ -62,7 +62,7 @@ Sphere.prototype.updateDirection = function(){
 // Scale X and Y radii.
 Sphere.prototype.scaleRadii = function(){
 
-  this.scaledRadiusX = this.radiusX * Math.cos(directionX);
-  this.scaledRadiusY = this.radiusY * Math.sin(directionY);
+  this.scaledRadiusX = this.radiusX * Math.cos(this.directionX);
+  this.scaledRadiusY = this.radiusY * Math.sin(this.directionY);
 
 }

@@ -9,43 +9,93 @@ function Level_4_1(options = {}) {
   this.enemies = [
     new Enemy({
       x: 1000,
-      y: 50,
+      y: 250,
       spawnX: 50,
+      
     }),
-    new Enemy({
+    new FancyBee({
       x: 1000,
-      y: 150,
-      spawnX: 50,
+      y: 250,
+      spawnX: 50
+    },{
+      states: {
+        'default': [
+          new Sphere({
+            direction: Math.PI * 1 / 3,
+            rotationSpeedY: Math.PI / 30
+          })
+        ]
+      }
     }),
-    new Enemy({
-      x: 1000,
-      y: 200,
-      spawnX: 50,
-    }),
-    new Enemy({
+    new FancyBee({
       x: 1000,
       y: 250,
       spawnX: 50,
+    },{
+      states: {
+        'default': [
+          new Sphere({
+            direction: Math.PI * 2 / 3,
+            rotationSpeedY: Math.PI / 30
+          })
+        ]
+      }
     }),
-    new Enemy({
+    new FancyBee({
       x: 1000,
-      y: 300,
+      y: 250,
       spawnX: 50,
+    },{
+      states: {
+        'default': [
+          new Sphere({
+            direction: Math.PI,
+            rotationSpeedY: Math.PI / 30
+          })
+        ]
+      }
     }),
-    new Enemy({
+    new FancyBee({
       x: 1000,
-      y: 350,
+      y: 250,
       spawnX: 50,
+    },{
+      states: {
+        'default': [
+          new Sphere({
+            direction: Math.PI * 4 / 3,
+            rotationSpeedY: Math.PI / 30
+          })
+        ]
+      }
     }),
-    new Enemy({
+    new FancyBee({
       x: 1000,
-      y: 400,
+      y: 250,
       spawnX: 50,
+    },{
+      states: {
+        'default': [
+          new Sphere({
+            direction: Math.PI * 5 / 3,
+            rotationSpeedY: Math.PI / 30
+          })
+        ]
+      }
     }),
-    new Enemy({
+    new FancyBee({
       x: 1000,
-      y: 450,
+      y: 250,
       spawnX: 50,
+    },{
+      states: {
+        'default': [
+          new Sphere({
+            direction: Math.PI * 2,
+            rotationSpeedY: Math.PI / 30
+          })
+        ]
+      }
     }),
   ];
   this.flames = [];

@@ -283,7 +283,7 @@ Dragon.prototype = {
     game.stage.beginPath();
     game.stage.lineWidth = 4;
     if (this.invincibilityFrames > 0) {
-      game.stage.strokeStyle="#00ff00";
+      game.stage.strokeStyle="#0000ff";
     } else {
       game.stage.strokeStyle="#ff0000";
     }

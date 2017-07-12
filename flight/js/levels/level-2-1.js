@@ -16,8 +16,78 @@ function Level_2_1(options = {}) {
       x: 1000,
       y: 250,
       spawnX: 50,
-      sphereBehaviorOverride: {
-        direction: Math.PI * 2 * (1 / 6)
+    },{
+      states: {
+        'default': [
+          new Sphere({
+            direction: Math.PI * 1 / 3
+          })
+        ]
+      }
+    }),
+    new FancyBee({
+      x: 1000,
+      y: 250,
+      spawnX: 50,
+    },{
+      states: {
+        'default': [
+          new Sphere({
+            direction: Math.PI * 2 / 3
+          })
+        ]
+      }
+    }),
+    new FancyBee({
+      x: 1000,
+      y: 250,
+      spawnX: 50,
+    },{
+      states: {
+        'default': [
+          new Sphere({
+            direction: Math.PI
+          })
+        ]
+      }
+    }),
+    new FancyBee({
+      x: 1000,
+      y: 250,
+      spawnX: 50,
+    },{
+      states: {
+        'default': [
+          new Sphere({
+            direction: Math.PI * 4 / 3
+          })
+        ]
+      }
+    }),
+    new FancyBee({
+      x: 1000,
+      y: 250,
+      spawnX: 50,
+    },{
+      states: {
+        'default': [
+          new Sphere({
+            direction: Math.PI * 5 / 3
+          })
+        ]
+      }
+    }),
+    new FancyBee({
+      x: 1000,
+      y: 250,
+      spawnX: 50,
+    },{
+      states: {
+        'default': [
+          new Sphere({
+            direction: Math.PI * 2
+          })
+        ]
       }
     }),
   ];
