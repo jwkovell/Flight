@@ -2,11 +2,9 @@
 
 function Enemy(options = {}, overrides = {}) {
 
-
   // Basic properties.
   this.x = options['x'] || 0;
   this.y = options['y'] || 0;
-  this.z = options['z'] || 0;
 
   this.rotation = options['rotation'] || 0;
   this.direction = options['direction'] || Math.PI;
@@ -30,7 +28,9 @@ function Enemy(options = {}, overrides = {}) {
 
   this.states = {
     'default': [],
-    'dead': []
+    'dead': [
+      new Fall()
+    ]
   };
 
   this.timeline = {
@@ -186,10 +186,6 @@ Enemy.prototype = {
     }
 
   },
-
-
-
-
 
   applyBehavior: function(behavoirID) {
 
@@ -350,6 +346,7 @@ Enemy.prototype = {
         game.stage.strokeStyle="#0000ff";
       }
 
+      // Set opacity.
       game.stage.globalAlpha = this.opacity;
 
       // Draw.

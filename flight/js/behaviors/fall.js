@@ -5,7 +5,7 @@ function Fall(options = {}) {
   // Fall is a type of Behavior.
   Behavior.call(this, options);
 
-  this.speed = options['speed'] || 2;
+  this.speed = options['speed'] || 10;
 
 }
 

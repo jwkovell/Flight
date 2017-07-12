@@ -45,6 +45,22 @@ Level.prototype = {
 
     });
 
+    // Loop through background elements.
+    this.background.forEach(function(background){
+
+      // Prepare background.
+      background.prepare();
+
+    });
+
+    // Loop through foreground elements.
+    this.foreground.forEach(function(foreground){
+
+      // Prepare foreground.
+      foreground.prepare();
+
+    });
+
   },
 
   // Update level.
@@ -87,6 +103,22 @@ Level.prototype = {
 
     // Update HUD.
     this.hud.update();
+
+    // Loop through background elements.
+    this.background.forEach(function(background){
+
+      // Update background.
+      background.update();
+
+    });
+
+    // Loop through foreground elements.
+    this.foreground.forEach(function(foreground){
+
+      // Update foreground.
+      foreground.update();
+
+    });
 
     // Loop through enemies.
     this.enemies.forEach(function(enemy){
@@ -299,14 +331,13 @@ Level.prototype = {
   // Draw level default state.
   drawDefaultState: function() {
 
-    // Draw controls.
-    this.controls.draw();
+    // Loop through background elements.
+    this.background.forEach(function(background){
 
-    // Draw dragon.
-    this.dragon.draw();
+      // Draw background.
+      background.draw();
 
-    // Draw HUD.
-    this.hud.draw();
+    });
 
     // Loop through the enemies.
     this.enemies.forEach(function(enemy){
@@ -331,6 +362,23 @@ Level.prototype = {
       fireball.draw();
 
     });
+
+    // Draw dragon.
+    this.dragon.draw();
+
+    // Loop through foreground elements.
+    this.foreground.forEach(function(foreground){
+
+      // Draw foreground.
+      foreground.draw();
+
+    });
+
+    // Draw HUD.
+    this.hud.draw();
+
+    // Draw controls.
+    this.controls.draw();
 
   },
 

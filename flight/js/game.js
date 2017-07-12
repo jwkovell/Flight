@@ -19,6 +19,8 @@ function Game() {
 
   this.loop = {};
 
+this.count = 0;
+
 }
 
 Game.prototype = {

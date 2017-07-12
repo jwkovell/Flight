@@ -22,7 +22,7 @@ function Controls(options = {}) {
 
   this.dpadEnabled = true;
   this.dpadActive = false;
-  this.dpadType = options['dpadType'] || 'vertical'; //full
+  this.dpadType = options['dpadType'] || 'full'; //vertical
   this.dpadLocation = 'left';
   this.dpadIgnoreRadius = 10;
 
