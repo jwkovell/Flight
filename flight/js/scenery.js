@@ -82,7 +82,7 @@ Scenery.prototype = {
 
       // Position.
       game.stage.translate(this.x, this.y);
-      game.stage.rotate(this.rotation * Math.PI / 180);
+      game.stage.rotate(this.rotation);
 
       // Set opacity.
       game.stage.globalAlpha = this.opacity;

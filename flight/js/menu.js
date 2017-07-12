@@ -266,9 +266,10 @@ Menu.prototype.draw = function(){
   }
 
   // Draw stage label.
-  game.stage.fillStyle="rgba(255, 255, 255, 1)";
+  game.stage.fillStyle = "rgba(0, 0, 0, 1)";
   game.stage.font = '28px Arial';
   game.stage.fillText(this.levels[this.selectedLevel].realm, this.labelX, this.labelY);
+  game.stage.fillStyle = "rgba(0, 0, 0, .5)";
   game.stage.font = '20px Arial';
   game.stage.fillText(this.levels[this.selectedLevel].name, this.labelX, this.labelY + 30);
 

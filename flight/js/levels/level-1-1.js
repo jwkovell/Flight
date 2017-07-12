@@ -274,6 +274,26 @@ function Level_1_1(options = {}) {
       color: 'rgba(0, 0, 0, 1)',
       spawnX: 0,
     }),
+    new Grid({
+      x: 500,
+      y: 600,
+      z: 10,
+      rotation: Math.PI * 5 / 6,
+      width: 50,
+      height: 200,
+      spawnX: 0,
+      color: 'rgba(0, 0, 0, 1)',
+    }),
+    new Grid({
+      x: 500,
+      y: 500,
+      z: 10,
+      rotation: Math.PI * 1 / 6,
+      width: 50,
+      height: 200,
+      spawnX: 0,
+      color: 'rgba(0, 0, 0, 1)',
+    }),
   ];
 
 }
