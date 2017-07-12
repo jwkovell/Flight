@@ -172,22 +172,11 @@ Enemy.prototype = {
       opacity: this.opacity,
     });
 
-    // Loop through result attributes.
-    for (var property in behaviorResuts) {
-
-      // Restrict loop to own properties.
-      if (behaviorResuts.hasOwnProperty(property)) {
-
-        // Update enemy property.
-        this[property] = behaviorResuts[property];
-
-      }
-
-    }
+    this.applyBehavior(behaviorResuts);
 
   },
 
-  applyBehavior: function(behavoirID) {
+  processBehavior: function(behavoirID) {
 
     var behaviorResuts = this.currentBehaviors[behavoirID].apply({
       x: this.x,
@@ -196,6 +185,12 @@ Enemy.prototype = {
       direction: this.direction,
       opacity: this.opacity,
     });
+
+    this.applyBehavior(behaviorResuts);
+
+  },
+
+  applyBehavior: function(behaviorResuts) {
 
     // Loop through result attributes.
     for (var property in behaviorResuts) {
@@ -262,7 +257,7 @@ Enemy.prototype = {
         for (var behavoirID in this.currentBehaviors) {
 
           // Apply behavior.
-          this.applyBehavior(behavoirID);
+          this.processBehavior(behavoirID);
 
         }
 

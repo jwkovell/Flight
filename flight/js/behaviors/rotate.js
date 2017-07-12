@@ -20,8 +20,8 @@ Rotate.prototype.apply = function(attributes){
   // If rotation is based on tracking...
   if (this.track) {
 
-    var offsetX = attributes.x - game.dragon.x;
-    var offsetY = attributes.y - game.dragon.y;
+    var offsetX = attributes.x - game.level.offsetSpeedX - game.dragon.x;
+    var offsetY = attributes.y - game.level.offsetSpeedY - game.dragon.y;
 
     attributes.rotation = Math.atan2(offsetY, offsetX);
 
