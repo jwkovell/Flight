@@ -33,7 +33,7 @@ function Level_1_1(options = {}) {
       width: 200,
       height: 100,
       spawnX: 0,
-      color: 'rgba(0, 0, 0, .25)',
+      color: 'rgba(0, 0, 0, .75)',
     }),
     new Grid({
       x: 1000,
@@ -42,7 +42,7 @@ function Level_1_1(options = {}) {
       width: 200,
       height: 100,
       spawnX: 0,
-      color: 'rgba(0, 0, 0, .25)',
+      color: 'rgba(0, 0, 0, .75)',
     }),
     new Grid({
       x: 1500,
@@ -51,7 +51,7 @@ function Level_1_1(options = {}) {
       width: 200,
       height: 100,
       spawnX: 0,
-      color: 'rgba(0, 0, 0, .25)',
+      color: 'rgba(0, 0, 0, .75)',
     }),
     new Grid({
       x: 0,
@@ -276,9 +276,9 @@ function Level_1_1(options = {}) {
     }),
     new Grid({
       x: 500,
-      y: 600,
+      y: 500,
       z: 10,
-      rotation: Math.PI * 5 / 6,
+      rotation: Math.PI * 1 / 6,
       width: 50,
       height: 200,
       spawnX: 0,
@@ -286,9 +286,9 @@ function Level_1_1(options = {}) {
     }),
     new Grid({
       x: 500,
-      y: 500,
-      z: 10,
-      rotation: Math.PI * 1 / 6,
+      y: 600,
+      z: 11,
+      rotation: Math.PI * 5 / 6,
       width: 50,
       height: 200,
       spawnX: 0,

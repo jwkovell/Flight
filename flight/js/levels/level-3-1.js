@@ -120,6 +120,11 @@ function Level_3_1(options = {}) {
     }),
     new Enemy({
       x: 1000,
+      y: 100,
+      spawnX: 50,
+    }),
+    new Enemy({
+      x: 1000,
       y: 150,
       spawnX: 50,
     }),

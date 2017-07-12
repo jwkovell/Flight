@@ -28,6 +28,14 @@ Grid.prototype.draw = function(){
     game.stage.translate(this.x, this.y);
     game.stage.rotate(this.rotation);
 
+    game.stage.beginPath();
+    game.stage.rect(-this.width / 2, -this.height / 2, this.width, this.height);
+    game.stage.fillStyle = "rgba(255, 255, 255, .5)";
+    game.stage.fill();
+    game.stage.closePath();
+
+
+
     // Draw horizontal lines.
     for (var rowIndex = 0; rowIndex <= this.divisions; rowIndex++) {
 
